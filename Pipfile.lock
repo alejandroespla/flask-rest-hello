@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f52d0f60048e4fda416f74a9c7ec54390b4469b0ea7391e58187db90c1dc8f1f"
+            "sha256": "cb9e61f0d06fd4fcd6efe7177a44d9480a5c63e6ae9d1ee22b836aa9ec7e94a5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -39,6 +39,15 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==8.1.8"
+        },
+        "diagram": {
+            "hashes": [
+                "sha256:1d3529751c3b0c6437fa78abf91b6d5709cdc8a6a963c3e548c36dab7b607e41",
+                "sha256:996663dff771b6e45ed983647808caf89de22f7eb860b02822b31f85460729ab",
+                "sha256:cad92799c4340bc57a757f598024779f4866fcda49f17764d0f148a57d3f9d5c"
+            ],
+            "index": "pypi",
+            "version": "==0.2.28"
         },
         "eralchemy2": {
             "hashes": [
