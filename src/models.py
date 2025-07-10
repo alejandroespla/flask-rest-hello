@@ -5,8 +5,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 db = SQLAlchemy()
 
 class Follower (db.Model):
-    user_from_id: Mapped[int] = mapped_column(primary_key=True)
-    user_to_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    user_from_id: Mapped[int] = mapped_column(ForeignKey("user.id"), primary_key=True)
+    user_to_id: Mapped[int] = mapped_column(ForeignKey("user.id"), primary_key=True)
    
     def serialize(self):
         return {
@@ -20,8 +20,10 @@ class User(db.Model):
     username: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
     firstname: Mapped[str] = mapped_column(String(120), unique=False, nullable=False)
     lastname: Mapped[str] = mapped_column(String(120), unique=False, nullable=False)
-    email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
 
+    Post: Mapped [list["Post"]] = relationship(back_populates="author")
+    Post: Mapped [list["Comment"]] = relationship(back_populates="user")
 
     def serialize(self):
         return {
@@ -38,7 +40,8 @@ class Comment (db.Model):
     comment_text: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
     autor_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
     post_id: Mapped[int] = mapped_column(ForeignKey("post.id"))
-   
+    
+    author: Mapped["User"] = relationship(back_populates="comments")
 
     def serialize(self):
         return {
@@ -51,7 +54,9 @@ class Comment (db.Model):
 class Post (db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-   
+    
+    author: Mapped["User"] = relationship(back_populates="posts")
+    media: Mapped[list["Media"]] = relationship(back_populates="post")
     def serialize(self):
         return {
             "id": self.id,
@@ -62,7 +67,9 @@ class Media (db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     type: Mapped[enumerate] = mapped_column(String(120), unique=True, nullable=False)
     url: Mapped[str] = mapped_column(primary_key=True)
-    post_id: Mapped[int] = mapped_column(primary_key=True)
+    post_id: Mapped[int] = mapped_column(ForeignKey("post.id"), nullable=False)
+
+    post: Mapped["Post"] = relationship(back_populates="media")
    
 
     def serialize(self):
